@@ -12,7 +12,7 @@ language: php
 
 php:
 #  - 5.3
-  - 5.4
+#  - 5.4
   - 5.5
 #  - 5.6
 #  - hhvm
@@ -102,7 +102,7 @@ env:
     - DRUPAL_TI_COVERAGE_FILE="build/logs/clover.xml"
 
     # Debug options
-    - DRUPAL_TI_DEBUG="-x -v"
+    #- DRUPAL_TI_DEBUG="-x -v"
     # Set to "all" to output all files, set to e.g. "xvfb selenium" or "selenium",
     # etc. to only output those channels.
     - DRUPAL_TI_DEBUG_FILE_OUTPUT="selenium xvfb webserver"
@@ -165,6 +165,7 @@ script:
   - mkdir -p vendor
   - rsync -a vendor $HOME/drupal-ti-cache/root/
   - rm -f $HOME/drupal-ti-cache/root/vendor/composer/*
+  - rm -f $HOME/drupal-ti-cache/root/vendor/autoload.php
 
 after_script:
   - drupal-ti after_script
