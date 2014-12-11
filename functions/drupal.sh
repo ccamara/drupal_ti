@@ -133,6 +133,7 @@ function drupal_ti_ensure_php_for_drush_webserver() {
 	then
 		drupal_ti_apt_get update >/dev/null 2>&1
 		drupal_ti_apt_get install php5-cgi
+		ln -sf "$DRUPAL_TI_DIST_DIR/usr/bin/php5-cgi" "$DRUPAL_TI_DIST_DIR/usr/bin/php-cgi"
 	fi
 	touch "$TRAVIS_BUILD_DIR/../drupal_ti-php-for-webserver-installed"
 }
