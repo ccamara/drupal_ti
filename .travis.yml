@@ -123,7 +123,7 @@ mysql:
 
 before_install:
   # Restore composer directory from cache.
-  - if [ -d $HOME/drupal-ti-cache/.composer ]; then mv $HOME/drupal-ti-cache/.composer $HOME/; fi
+  - if [ -d $HOME/drupal-ti-cache/.composer ]; then ls -la $HOME/.composer; mv $HOME/.composer $HOME/.composer.old;  mv $HOME/drupal-ti-cache/.composer $HOME/; fi
 
   - composer self-update
   #  - composer global require LionsAd/drupal_ti:dev-master
