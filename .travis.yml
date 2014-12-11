@@ -167,6 +167,9 @@ script:
   - rm -f $HOME/drupal-ti-cache/home/.drush/cache/default/6.5.0-*.cache
   - rm -f $HOME/drupal-ti-cache/home/.drush/cache/default/7.0-dev-*.cache
 
+  - mkdir -p $HOME/.dist
+  - rsync -a $HOME/.dist $HOME/drupal-ti-cache/home/
+
   - mkdir -p $HOME/drupal-ti-cache/root
   - rsync -a composer.{json,lock} $HOME/drupal-ti-cache/root/
 
