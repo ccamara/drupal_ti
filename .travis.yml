@@ -122,8 +122,8 @@ mysql:
   encoding: utf8
 
 before_install:
-  - echo '/home/travis/drupal-ti-cache: 141831118' > $HOME/.casher/mtime.yml
-
+  - ls -laR "$HOME/.casher"
+  - false
   # Restore home directory from cache.
   - mkdir -p $HOME/drupal-ti-cache/home
   - rsync -a $HOME/drupal-ti-cache/home/ $HOME/
