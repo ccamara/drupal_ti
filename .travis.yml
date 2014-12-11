@@ -165,6 +165,7 @@ script:
   - mkdir -p vendor
   - rsync -a vendor $HOME/drupal-ti-cache/root/
   - rm -f $HOME/drupal-ti-cache/root/vendor/composer/ClassLoader.php
+  - rm -f $HOME/drupal-ti-cache/root/vendor/composer/autoload_classmap.php
 
 after_script:
   - drupal-ti after_script
