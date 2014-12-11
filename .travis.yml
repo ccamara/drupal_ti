@@ -124,6 +124,7 @@ mysql:
 before_install:
   # Restore home directory from cache.
   - mkdir -p $HOME/drupal-ti-cache/home
+  - ls -la $HOME/drupal-ti-cache/
   - rsync -a $HOME/drupal-ti-cache/home/ $HOME/
 
   - composer self-update
@@ -169,7 +170,7 @@ script:
   - rm -f $HOME/drupal-ti-cache/root/vendor/composer/*.php
   - rm -f $HOME/drupal-ti-cache/root/vendor/autoload.php
   # Detect differences and touch a file in that case.
-  - rsync -ain $HOME/drupal-ti-cache $HOME/drupal-ti-cache.old | tee /tmp/drupal-ti-cache.txt
+  - rsync -ain $HOME/drupal-ti-cache $HOME/drupal-ti-cache.old | egrep 'home/|root/' | tee /tmp/drupal-ti-cache.txt
   - RC=""
   - egrep -q '^' /tmp/drupal-ti-cache.txt && RC=1
   - test -z "$RC" || touch $HOME/drupal-ti-cache/x-drupal-ti-cache
