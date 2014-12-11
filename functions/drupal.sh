@@ -75,7 +75,10 @@ function drupal_ti_run_server() {
 	PHP_VERSION=$(phpenv version-name)
 	if [ "$PHP_VERSION" = "5.3" ]
 	then
-		OPTIONS=( "${OPTIONS[@]}" --php-cgi=php5-cgi )
+		echo $PATH
+		PHP5_CGI=$(which php5-cgi)
+		echo $PHP5_CGI
+		OPTIONS=( "${OPTIONS[@]}" --php-cgi="$PHP5_CGI")
 	fi
 
 	# start a web server on port 8080, run in the background; wait for initialization
@@ -117,10 +120,7 @@ function drupal_ti_apt_get() {
 			cd "$DRUPAL_TI_DIST_DIR"
 			apt-get -c "$DRUPAL_TI_DIST_DIR/etc/apt/apt.conf" "${ARGS[@]}" || true
 			dpkg -x *.deb .
-			find
 		)
-		echo $PATH
-		which php5-cgi
 	else
 		apt-get -c "$DRUPAL_TI_DIST_DIR/etc/apt/apt.conf" "$@" || true
 	fi
