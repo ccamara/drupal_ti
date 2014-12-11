@@ -94,8 +94,8 @@ function drupal_ti_ensure_php_for_drush_webserver() {
 	PHP_VERSION=$(phpenv version-name)
 	if [ "$PHP_VERSION" = "5.3" ]
 	then
-		apt-get update > /dev/null
-		apt-get install -y --force-yes php5-cgi php5-mysql
+		apt-get --dry-run update > /dev/null
+		apt-get --dry-run install -y --force-yes php5-cgi php5-mysql
 	fi
 	touch "$TRAVIS_BUILD_DIR/../drupal_ti-php-for-webserver-installed"
 }
