@@ -70,10 +70,16 @@ function drupal_ti_run_server() {
 		return
 	fi
 
-	OPTIONS=""
+	OPTIONS=()
+
+	PHP_VERSION=$(phpenv version-name)
+	if [ "$PHP_VERSION" = "5.3" ]
+	then
+		OPTIONS=( "${OPTIONS[@]}" --php-cgi=php5-cgi )
+	fi
 
 	# start a web server on port 8080, run in the background; wait for initialization
-	{ drush runserver $OPTIONS "$DRUPAL_TI_WEBSERVER_URL:$DRUPAL_TI_WEBSERVER_PORT" 2>&1 | drupal_ti_log_output "webserver" ; } &
+	{ drush runserver "${OPTIONS[@]}" "$DRUPAL_TI_WEBSERVER_URL:$DRUPAL_TI_WEBSERVER_PORT" 2>&1 | drupal_ti_log_output "webserver" ; } &
 
 	# Wait until drush server has been started.
 	drupal_ti_wait_for_service_port "$DRUPAL_TI_WEBSERVER_PORT"
@@ -133,7 +139,6 @@ function drupal_ti_ensure_php_for_drush_webserver() {
 	then
 		drupal_ti_apt_get update >/dev/null 2>&1
 		drupal_ti_apt_get install php5-cgi
-		ln -sf "$DRUPAL_TI_DIST_DIR/usr/bin/php5-cgi" "$DRUPAL_TI_DIST_DIR/usr/bin/php-cgi"
 	fi
 	touch "$TRAVIS_BUILD_DIR/../drupal_ti-php-for-webserver-installed"
 }
