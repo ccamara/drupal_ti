@@ -154,6 +154,7 @@ script:
   - rm -rf $HOME/drupal-ti-cache/root
   - mkdir -p $HOME/drupal-ti-cache/root
   - rsync -avP composer.{json,lock} $HOME/drupal-ti-cache/root/
+  - mkdir -p vendor
   - rsync -avP vendor $HOME/drupal-ti-cache/root/
   - rsync -avP $HOME/.composer $HOME/drupal-ti-cache/
 
