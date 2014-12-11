@@ -140,8 +140,7 @@ before_install:
 
   # Restore caches, @todo make simpler.
   - mkdir -p $HOME/drupal-ti-cache/root
-  - rsync -avP $HOME/drupal-ti-cache/root/ .
-  - ls -laR vendor/
+  - rsync -a $HOME/drupal-ti-cache/root/ .
   - drupal-ti before_install
 
 install:
@@ -165,7 +164,7 @@ script:
 
   - mkdir -p vendor
   - rsync -a vendor $HOME/drupal-ti-cache/root/
-  - rm -f $HOME/drupal-ti-cache/root/vendor/composer/*
+  - rm -f $HOME/drupal-ti-cache/root/vendor/composer/*.php
   - rm -f $HOME/drupal-ti-cache/root/vendor/autoload.php
 
 after_script:
