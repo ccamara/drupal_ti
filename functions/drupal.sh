@@ -117,7 +117,10 @@ function drupal_ti_apt_get() {
 			cd "$DRUPAL_TI_DIST_DIR"
 			apt-get -c "$DRUPAL_TI_DIST_DIR/etc/apt/apt.conf" "${ARGS[@]}" || true
 			dpkg -x *.deb .
+			find
 		)
+		echo $PATH
+		which php5-cgi
 	else
 		apt-get -c "$DRUPAL_TI_DIST_DIR/etc/apt/apt.conf" "$@" || true
 	fi
