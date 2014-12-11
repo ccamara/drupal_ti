@@ -156,6 +156,10 @@ script:
 
   - mkdir -p $HOME/drupal-ti-cache/home
   - rsync -a $HOME/.composer $HOME/drupal-ti-cache/home/
+
+  # Ignore old backups.
+  - rm -f $HOME/.composer/*.phar
+
   - mkdir -p $HOME/.drush
   - rsync -a $HOME/.drush $HOME/drupal-ti-cache/home/
 
