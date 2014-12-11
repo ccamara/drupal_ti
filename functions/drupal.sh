@@ -80,6 +80,39 @@ function drupal_ti_run_server() {
 	touch "$TRAVIS_BUILD_DIR/../drupal_ti-drush-server-running"
 }
 
+# @todo Move
+function drupal_ti_ensure_apt_get() {
+	# This function is re-entrant.
+	if [ -r "$TRAVIS_BUILD_DIR/../drupal_ti-apt-get-setup" ]
+	then
+		return
+	fi
+
+	mkdir -p "$DRUPAL_TI_DIST_DIR/etc/apt/"
+	mkdir -p "$DRUPAL_TI_DIST_DIR/var/cache/apt/archives/partial"
+	mkdir -p "$DRUPAL_TI_DIST_DIR/var/lib/apt/lists/partial"
+
+	cat <<EOF > $HOME/.dist/ > $HOME/.dist/etc/apt/apt.conf
+Dir::Cache "$DRUPAL_TI_DIST_DIR/var/cache/apt";
+Dir::State "$DRUPAL_TI_DIST_DIR/var/lib/apt";
+EOF
+
+	touch "$TRAVIS_BUILD_DIR/../drupal_ti-apt-get-setup"
+}
+
+# @todo Move
+function drupal_ti_apt_get() {
+	drupal_ti_ensure_apt_get
+	if [ "$1" = "install" ]
+	then
+		ARGS=( "$@" )
+		ARGS[0]="download"
+		apt-get -c "$HOME/.dist/etc/apt/apt.conf" "${ARGS[@]}"
+	else
+		apt-get -c "$HOME/.dist/etc/apt/apt.conf" "$@"
+	fi
+}
+
 #
 # Ensures a drush webserver can be started for PHP 5.3.
 #
@@ -94,8 +127,8 @@ function drupal_ti_ensure_php_for_drush_webserver() {
 	PHP_VERSION=$(phpenv version-name)
 	if [ "$PHP_VERSION" = "5.3" ]
 	then
-		apt-get --dry-run update > /dev/null
-		apt-get --dry-run install -y --force-yes php5-cgi php5-mysql
+		drupal_ti_apt_get update
+		drupal_ti_apt_get install php5-cgi
 	fi
 	touch "$TRAVIS_BUILD_DIR/../drupal_ti-php-for-webserver-installed"
 }
