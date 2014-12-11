@@ -61,6 +61,20 @@ function drupal_ti_ensure_module() {
 }
 
 #
+# Run a drupal server.
+#
+function drupal_ti_run_server_service() {
+	PHP_VERSION=$(phpenv version-name)
+
+	if [ "$PHP_VERSION" = "5.3" ]
+	then
+		drush run-server "$DRUPAL_TI_WEBSERVER_URL:$DRUPAL_TI_WEBSERVER_PORT" 2>&1
+	else
+		php -S "$DRUPAL_TI_WEBSERVER_URL:$DRUPAL_TI_WEBSERVER_PORT" 2>&1
+	fi
+}
+
+#
 # Run a webserver and wait until it is started up.
 #
 function drupal_ti_run_server() {
@@ -71,7 +85,7 @@ function drupal_ti_run_server() {
 	fi
 
 	# start a web server on port 8080, run in the background; wait for initialization
-	{ drush runserver "$DRUPAL_TI_WEBSERVER_URL:$DRUPAL_TI_WEBSERVER_PORT" 2>&1 | drupal_ti_log_output "webserver" ; } &
+	{ drupal_ti_run_server_service | drupal_ti_log_output "webserver" ; } &
 
 	# Wait until drush server has been started.
 	drupal_ti_wait_for_service_port "$DRUPAL_TI_WEBSERVER_PORT"
