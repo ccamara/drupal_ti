@@ -125,7 +125,7 @@ before_install:
   # Restore home directory from cache.
   - mkdir -p $HOME/drupal-ti-cache/home
   - rsync -a $HOME/drupal-ti-cache/home/ $HOME/
-  - ls -la $HOME/drupal-ti-cache
+  - ls -laR $HOME/drupal-ti-cache
 
   - composer self-update
   #  - composer global require LionsAd/drupal_ti:dev-master
