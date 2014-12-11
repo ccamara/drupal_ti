@@ -169,11 +169,7 @@ script:
   - rm -f $HOME/drupal-ti-cache/root/vendor/composer/*.php
   - rm -f $HOME/drupal-ti-cache/root/vendor/autoload.php
   # Detect differences and touch a file in that case.
-  - ( cd $HOME/drupal-ti-cache.old; find > /tmp/a.txt)
-  - ( cd $HOME/drupal-ti-cache; find > /tmp/b.txt)
-  - diff -u /tmp/b.txt /tmp/a.txt
-  - false
-  - rsync -ain $HOME/drupal-ti-cache $HOME/drupal-ti-cache.old | tee /tmp/drupal-ti-cache.txt
+  - rsync -ain $HOME/drupal-ti-cache/ $HOME/drupal-ti-cache.old/ | tee /tmp/drupal-ti-cache.txt
   - RC=""
   - egrep -q '^' /tmp/drupal-ti-cache.txt && RC=1
   - test -z "$RC" || touch $HOME/drupal-ti-cache/x-drupal-ti-cache
