@@ -159,7 +159,7 @@ script:
 
   # Ignore old backups.
   - rm -f $HOME/drupal-ti-cache/home/.composer/*.phar
-  # Ignore updated symlink.
+  # Ignore symlink, which meta data has changed.
   - rm -f $HOME/drupal-ti-cache/home/.composer/vendor/bin/drupal-ti
 
   - mkdir -p $HOME/.drush
