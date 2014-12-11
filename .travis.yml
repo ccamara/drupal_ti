@@ -160,7 +160,7 @@ script:
   # Ignore old backups.
   - rm -f $HOME/drupal-ti-cache/home/.composer/*.phar
   # Ignore updated symlink.
-  - rm -f $HOME/drupal-ti-cache/home/vendor/bin/drupal-ti
+  - rm -f $HOME/drupal-ti-cache/home/.composer/vendor/bin/drupal-ti
 
   - mkdir -p $HOME/.drush
   - rsync -a $HOME/.drush $HOME/drupal-ti-cache/home/
