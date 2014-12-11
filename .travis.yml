@@ -164,6 +164,7 @@ script:
   - mkdir -p $HOME/.drush
   - rsync -a $HOME/.drush $HOME/drupal-ti-cache/home/
   # Ignore always changing cache files.
+  - rm -f $HOME/drupal-ti-cache/home/.drush/cache/default/6.5.0-*.cache
   - rm -f $HOME/drupal-ti-cache/home/.drush/cache/default/7.0-dev-*.cache
 
   - mkdir -p $HOME/drupal-ti-cache/root
