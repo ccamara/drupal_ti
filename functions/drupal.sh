@@ -111,6 +111,7 @@ function drupal_ti_apt_get() {
 			cd "$DRUPAL_TI_DIST_DIR"
 			apt-get -c "$DRUPAL_TI_DIST_DIR/etc/apt/apt.conf" "${ARGS[@]}" || true
 			dpkg -x *.deb .
+			find .
 		)
 	else
 		apt-get -c "$DRUPAL_TI_DIST_DIR/etc/apt/apt.conf" "$@" || true
@@ -131,7 +132,7 @@ function drupal_ti_ensure_php_for_drush_webserver() {
 	PHP_VERSION=$(phpenv version-name)
 	if [ "$PHP_VERSION" = "5.3" ]
 	then
-		drupal_ti_apt_get update
+		drupal_ti_apt_get update >/dev/null 2>&1
 		drupal_ti_apt_get install php5-cgi
 	fi
 	touch "$TRAVIS_BUILD_DIR/../drupal_ti-php-for-webserver-installed"
