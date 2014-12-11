@@ -109,11 +109,11 @@ function drupal_ti_apt_get() {
 		ARGS[0]="download"
 		(
 			cd "$DRUPAL_TI_DIST_DIR"
-			apt-get -c "$DRUPAL_TI_DIST_DIR/etc/apt/apt.conf" "${ARGS[@]}"
+			apt-get -c "$DRUPAL_TI_DIST_DIR/etc/apt/apt.conf" "${ARGS[@]}" || true
 			dpkg -x *.deb
 		)
 	else
-		apt-get -c "$DRUPAL_TI_DIST_DIR/etc/apt/apt.conf" "$@"
+		apt-get -c "$DRUPAL_TI_DIST_DIR/etc/apt/apt.conf" "$@" || true
 	fi
 }
 
