@@ -164,6 +164,7 @@ script:
 
   - mkdir -p vendor
   - rsync -a vendor $HOME/drupal-ti-cache/root/
+  # Delete composer generated files that screw up cache detection.
   - rm -f $HOME/drupal-ti-cache/root/vendor/composer/*.php
   - rm -f $HOME/drupal-ti-cache/root/vendor/autoload.php
 
