@@ -14,5 +14,7 @@ then
 		echo "Coveralls is already installed. Skipping installation."
 	else
 		composer require --no-interaction --dev "$DRUPAL_TI_COVERAGE"
+		# Update the lock file, too.
+		composer update --lock
 	fi
 fi
