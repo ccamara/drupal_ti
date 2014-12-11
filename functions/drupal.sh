@@ -107,7 +107,7 @@ function drupal_ti_wait_for_service_port() {
 
 	# Try to connect to the port via netcat.
 	# netstat is not available on the container builds.
-	until nc -w 1 "$PORT"
+	until nc -w 1 localhost "$PORT"
 	do
 		sleep 1
 	done
