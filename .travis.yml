@@ -122,6 +122,8 @@ mysql:
   encoding: utf8
 
 before_install:
+  - ls -laR $CACHER_DIR
+  - false
   # Restore home directory from cache.
   - mkdir -p $HOME/drupal-ti-cache/home
   - rsync -a $HOME/drupal-ti-cache/home/ $HOME/
@@ -155,9 +157,9 @@ script:
   - rm -rf $HOME/drupal-ti-cache
 
   - mkdir -p $HOME/drupal-ti-cache/home
-  - rsync -avP $HOME/.composer $HOME/drupal-ti-cache/home/
+  - rsync -a $HOME/.composer $HOME/drupal-ti-cache/home/
   - mkdir -p $HOME/.drush
-  - rsync -avP $HOME/.drush $HOME/drupal-ti-cache/home/
+  - rsync -a $HOME/.drush $HOME/drupal-ti-cache/home/
 
   - mkdir -p $HOME/drupal-ti-cache/root
   - rsync -a composer.{json,lock} $HOME/drupal-ti-cache/root/
