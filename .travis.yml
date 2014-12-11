@@ -12,7 +12,7 @@ language: php
 
 php:
 #  - 5.3
-  - 5.4
+#  - 5.4
   - 5.5
 #  - 5.6
 #  - hhvm
@@ -125,6 +125,7 @@ before_install:
   # Restore home directory from cache.
   - mkdir -p $HOME/drupal-ti-cache/home
   - rsync -a $HOME/drupal-ti-cache/home/ $HOME/
+  - ls -la $HOME/drupal-ti-cache
 
   - composer self-update
   #  - composer global require LionsAd/drupal_ti:dev-master
