@@ -122,8 +122,9 @@ mysql:
   encoding: utf8
 
 before_install:
-  # Restore composer directory from cache.
-  - if [ -d $HOME/drupal-ti-cache/.composer ]; then ls -la $HOME/.composer; mv $HOME/.composer $HOME/.composer.old;  mv $HOME/drupal-ti-cache/.composer $HOME/; fi
+  # Restore home directory from cache.
+  - mkdir -p $HOME/drupal-ti-cache/home
+  - rsync -a $HOME/drupal-ti-cache/home/ $HOME/
 
   - composer self-update
   #  - composer global require LionsAd/drupal_ti:dev-master
@@ -151,13 +152,19 @@ before_script:
 script:
   - drupal-ti script
   # Save caches @todo make simpler.
-  - rm -rf $HOME/drupal-ti-cache/root
+  - rm -rf $HOME/drupal-ti-cache
+
+  - mkdir -p $HOME/drupal-ti-cache/home
+  - rsync -a $HOME/.composer $HOME/drupal-ti-cache/home/
+  - mkdir -p $HOME/.drush
+  - rsync -a $HOME/.drush $HOME/drupal-ti-cache/home/
+
   - mkdir -p $HOME/drupal-ti-cache/root
   - rsync -a composer.{json,lock} $HOME/drupal-ti-cache/root/
+
   - mkdir -p vendor
   - rsync -a vendor $HOME/drupal-ti-cache/root/
   - rm -f $HOME/drupal-ti-cache/root/vendor/composer/ClassLoader.php
-  - rsync -a $HOME/.composer $HOME/drupal-ti-cache/
 
 after_script:
   - drupal-ti after_script
