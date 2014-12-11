@@ -20,8 +20,8 @@ sudo: false
 
 cache:
   directories:
-    - tests/drupal-7/drupal_ti_test/tests
-    - tests/drupal-8/drupal_ti_test/tests
+    - tests/drupal-7/drupal_ti_test/tests/vendor
+    - tests/drupal-8/drupal_ti_test/tests/vendor
     - $HOME/.composer
 
 matrix:
