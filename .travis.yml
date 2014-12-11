@@ -152,7 +152,7 @@ before_script:
 script:
   - drupal-ti script
   # Save caches @todo make simpler.
-  - rm -rf $HOME/drupal-ti-cache
+  - mv $HOME/drupal-ti-cache $HOME/drupal-ti-cache.old
 
   - mkdir -p $HOME/drupal-ti-cache/home
   - rsync -a $HOME/.composer $HOME/drupal-ti-cache/home/
@@ -168,6 +168,11 @@ script:
   # Delete composer generated files that screw up cache detection.
   - rm -f $HOME/drupal-ti-cache/root/vendor/composer/*.php
   - rm -f $HOME/drupal-ti-cache/root/vendor/autoload.php
+  # Detect differences and touch a file in that case.
+  - rsync -ain $HOME/drupal-ti-cache $HOME/drupal-ti-cache.old | tee /tmp/drupal-ti-cache.txt
+  - RC=""
+  - egrep -q '^' /tmp/drupal-ti-cache.txt && RC=1
+  - test -z "$RC" || touch $HOME/drupal-ti-cache/x-drupal-ti-cache
 
 after_script:
   - drupal-ti after_script
