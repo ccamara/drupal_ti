@@ -122,7 +122,7 @@ mysql:
   encoding: utf8
 
 before_install:
-  - ls -laR $CACHER_DIR
+  - ls -laR "$HOME/.cacher"
   - false
   # Restore home directory from cache.
   - mkdir -p $HOME/drupal-ti-cache/home
