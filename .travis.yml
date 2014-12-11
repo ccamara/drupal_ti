@@ -124,7 +124,7 @@ mysql:
 before_install:
   # Restore home directory from cache.
   - mkdir -p $HOME/drupal-ti-cache/home
-  - rsync -avP $HOME/drupal-ti-cache/home/ $HOME/
+  - rsync -a $HOME/drupal-ti-cache/home/ $HOME/
 
   - composer self-update
   #  - composer global require LionsAd/drupal_ti:dev-master
@@ -155,9 +155,9 @@ script:
   - rm -rf $HOME/drupal-ti-cache
 
   - mkdir -p $HOME/drupal-ti-cache/home
-  - rsync -a $HOME/.composer $HOME/drupal-ti-cache/home/
+  - rsync -avP $HOME/.composer $HOME/drupal-ti-cache/home/
   - mkdir -p $HOME/.drush
-  - rsync -a $HOME/.drush $HOME/drupal-ti-cache/home/
+  - rsync -avP $HOME/.drush $HOME/drupal-ti-cache/home/
 
   - mkdir -p $HOME/drupal-ti-cache/root
   - rsync -a composer.{json,lock} $HOME/drupal-ti-cache/root/
