@@ -156,6 +156,7 @@ script:
   - rsync -a composer.{json,lock} $HOME/drupal-ti-cache/root/
   - mkdir -p vendor
   - rsync -a vendor $HOME/drupal-ti-cache/root/
+  - rm -f $HOME/drupal-ti-cache/root/vendor/composer/ClassLoader.php
   - rsync -a $HOME/.composer $HOME/drupal-ti-cache/
 
 after_script:
