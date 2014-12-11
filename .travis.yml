@@ -13,7 +13,7 @@ language: php
 php:
 #  - 5.3
   - 5.4
-  - 5.5
+#  - 5.5
 #  - 5.6
 #  - hhvm
 sudo: false
@@ -138,8 +138,8 @@ before_install:
   - cd ./tests
 
   # Restore caches, @todo make simpler.
-  - mkdir -p $HOME/drupal-ti-cache
-  - rsync -avP $HOME/drupal-ti-cache/ .
+  - mkdir -p $HOME/drupal-ti-cache/root
+  - rsync -avP $HOME/drupal-ti-cache/root/ .
   - drupal-ti before_install
 
 install:
@@ -151,12 +151,8 @@ before_script:
 script:
   - drupal-ti script
   # Save caches @todo make simpler.
-  - mkdir -p $HOME/drupal-ti-cache/drupal-7/drupal_ti_test/tests/
-  - pwd
-  - ls -la
-  - ls -la tests/
-  - ls -la drupal-7/
-  - cp -a drupal-7/drupal_ti_test/tests/composer.{json,lock} $HOME/drupal-ti-cache/drupal-7/drupal_ti_test/tests/
+  - mkdir -p $HOME/drupal-ti-cache/root
+  - cp -a composer.{json,lock} $HOME/drupal-ti-cache/root/
   - rsync -avP $HOME/.composer $HOME/drupal-ti-cache/
 
 after_script:
