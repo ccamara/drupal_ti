@@ -159,8 +159,6 @@ script:
 
   # Ignore old backups.
   - rm -f $HOME/drupal-ti-cache/home/.composer/*.phar
-  # Ignore symlink, which meta data has changed.
-  - rm -f $HOME/drupal-ti-cache/home/.composer/vendor/bin/drupal-ti
 
   - mkdir -p $HOME/.drush
   - rsync -a $HOME/.drush $HOME/drupal-ti-cache/home/
@@ -175,7 +173,7 @@ script:
   - rm -f $HOME/drupal-ti-cache/root/vendor/composer/*.php
   - rm -f $HOME/drupal-ti-cache/root/vendor/autoload.php
   # Detect differences and touch a file in that case.
-  - rsync -ain $HOME/drupal-ti-cache/ $HOME/drupal-ti-cache.old/ | tee /tmp/drupal-ti-cache.txt
+  - rsync -ain $HOME/drupal-ti-cache/ $HOME/drupal-ti-cache.old/ | egrep -v '^\.' | tee /tmp/drupal-ti-cache.txt
   - RC=""
   - egrep -q '^' /tmp/drupal-ti-cache.txt && RC=1
   - test -z "$RC" || touch $HOME/drupal-ti-cache/x-drupal-ti-cache
