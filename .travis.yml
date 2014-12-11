@@ -123,7 +123,7 @@ mysql:
 
 before_install:
   # Restore composer directory from cache.
-  - test -d $HOME/drupal-ti-cache/.composer && mv $HOME/drupal-ti-cache/.composer $HOME/
+  - if [ -d $HOME/drupal-ti-cache/.composer ]; then mv $HOME/drupal-ti-cache/.composer $HOME/; fi
 
   - composer self-update
   #  - composer global require LionsAd/drupal_ti:dev-master
@@ -138,7 +138,8 @@ before_install:
   - cd ./tests
 
   # Restore caches, @todo make simpler.
-  - test -f $HOME/drupal-ti-cache/x-drupal-ti-cache && rsync -avP $HOME/drupal-ti-cache/* .
+  - mkdir -p $HOME/drupal-ti-cache
+  - rsync -avP $HOME/drupal-ti-cache/ .
   - drupal-ti before_install
 
 install:
@@ -149,14 +150,13 @@ before_script:
 
 script:
   - drupal-ti script
+  - # Save caches @todo make simpler.
+  - mkdir -p $HOME/drupal-ti-cache/drupal-7/drupal_ti_test/tests/
+  - cp -a drupal-7/drupal_ti_test/tests/composer.{json,lock} $HOME/drupal-ti-cache/drupal-7/drupal_ti_test/tests/
+  - rsync -avP $HOME/.composer $HOME/drupal-ti-cache/
 
 after_script:
   - drupal-ti after_script
-
-  - # Save caches @todo make simpler.
-  - mkdir -p $HOME/drupal-ti-cache/drupal-7/drupal_ti_test/tests/
-  - touch $HOME/drupal-ti-cache/x-drupal-ti-cache
-  - cp -a drupal-7/drupal_ti_test/tests/composer.{json,lock} $HOME/drupal-ti-cache/drupal-7/drupal_ti_test/tests/
 
 notifications:
   email: false
