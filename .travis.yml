@@ -136,6 +136,7 @@ before_install:
   - cd ./tests
   # Restore caches.
   - mkdir -p $HOME/drupal-ti-cache
+  - touch $HOME/drupal-ti-cache/.gitkeep
   - rsync -avP $HOME/drupal-ti-cache/* .
   - drupal-ti before_install
 
@@ -152,7 +153,6 @@ after_script:
   - drupal-ti after_script
 
   - # Save caches @todo make simpler.
-  - mkdir -p $HOME/drupal-ti-cache
   - mkdir -p $HOME/drupal-ti-cache/drupal-7/drupal_ti_test/tests/
   - cp -a drupal-7/drupal_ti_test/tests/composer.{json,lock} $HOME/drupal-ti-cache/drupal-7/drupal_ti_test/tests/
 
