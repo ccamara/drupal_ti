@@ -104,6 +104,9 @@ function drupal_ti_ensure_php_for_drush_webserver() {
 function drupal_ti_wait_for_service_port() {
 	PORT=$1
 	shift
+	# hack:
+	sleep 3
+	return
 
 	until netstat -an 2>/dev/null | grep -q "$PORT.*LISTEN"
 	do
