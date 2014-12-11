@@ -122,8 +122,6 @@ mysql:
   encoding: utf8
 
 before_install:
-  - echo "/home/travis/drupal-ti-cache: 141831118" >$HOME/.casher/mtime.yml
-
   # Restore home directory from cache.
   - mkdir -p $HOME/drupal-ti-cache/home
   - rsync -a $HOME/drupal-ti-cache/home/ $HOME/
@@ -170,6 +168,7 @@ script:
   # Delete composer generated files that screw up cache detection.
   - rm -f $HOME/drupal-ti-cache/root/vendor/composer/*.php
   - rm -f $HOME/drupal-ti-cache/root/vendor/autoload.php
+  - touch $HOME/drupal-ti-cache/dummy
 
 after_script:
   - drupal-ti after_script
