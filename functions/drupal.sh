@@ -104,11 +104,10 @@ function drupal_ti_ensure_php_for_drush_webserver() {
 function drupal_ti_wait_for_service_port() {
 	PORT=$1
 	shift
-	# hack:
-	sleep 3
-	return
 
-	until netstat -an 2>/dev/null | grep -q "$PORT.*LISTEN"
+	# Try to connect to the port via netcat.
+	# netstat is not available on the container builds.
+	until nc -w 1 "$PORT"
 	do
 		sleep 1
 	done
