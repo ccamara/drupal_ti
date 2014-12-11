@@ -91,7 +91,7 @@ function drupal_ti_run_server() {
 # @todo Move
 function drupal_ti_ensure_apt_get() {
 	# This function is re-entrant.
-	if [ -r "$TRAVIS_BUILD_DIR/../drupal_ti-apt-get-setup" ]
+	if [ -r "$DRUPAL_TI_DIST_DIR/etc/apt/apt.conf" ]
 	then
 		return
 	fi
@@ -104,8 +104,6 @@ function drupal_ti_ensure_apt_get() {
 Dir::Cache "$DRUPAL_TI_DIST_DIR/var/cache/apt";
 Dir::State "$DRUPAL_TI_DIST_DIR/var/lib/apt";
 EOF
-
-	touch "$TRAVIS_BUILD_DIR/../drupal_ti-apt-get-setup"
 }
 
 # @todo Move
