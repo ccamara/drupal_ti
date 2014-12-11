@@ -139,7 +139,7 @@ before_install:
 
   # Restore caches, @todo make simpler.
   - mkdir -p $HOME/drupal-ti-cache/root
-  - rsync -avP $HOME/drupal-ti-cache/root/ .
+  - rsync -a $HOME/drupal-ti-cache/root/ .
   - drupal-ti before_install
 
 install:
@@ -153,10 +153,10 @@ script:
   # Save caches @todo make simpler.
   - rm -rf $HOME/drupal-ti-cache/root
   - mkdir -p $HOME/drupal-ti-cache/root
-  - rsync -avP composer.{json,lock} $HOME/drupal-ti-cache/root/
+  - rsync -a composer.{json,lock} $HOME/drupal-ti-cache/root/
   - mkdir -p vendor
-  - rsync -avP vendor $HOME/drupal-ti-cache/root/
-  - rsync -avP $HOME/.composer $HOME/drupal-ti-cache/
+  - rsync -a vendor $HOME/drupal-ti-cache/root/
+  - rsync -a $HOME/.composer $HOME/drupal-ti-cache/
 
 after_script:
   - drupal-ti after_script
