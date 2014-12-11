@@ -92,7 +92,7 @@ function drupal_ti_ensure_apt_get() {
 	mkdir -p "$DRUPAL_TI_DIST_DIR/var/cache/apt/archives/partial"
 	mkdir -p "$DRUPAL_TI_DIST_DIR/var/lib/apt/lists/partial"
 
-	cat <<EOF > $HOME/.dist/ > $HOME/.dist/etc/apt/apt.conf
+	cat <<EOF >"$DRUPAL_TI_DIST_DIR/etc/apt/apt.conf"
 Dir::Cache "$DRUPAL_TI_DIST_DIR/var/cache/apt";
 Dir::State "$DRUPAL_TI_DIST_DIR/var/lib/apt";
 EOF
@@ -105,11 +105,15 @@ function drupal_ti_apt_get() {
 	drupal_ti_ensure_apt_get
 	if [ "$1" = "install" ]
 	then
-		ARGS=( "$@" )
+		export ARGS=( "$@" )
 		ARGS[0]="download"
-		apt-get -c "$HOME/.dist/etc/apt/apt.conf" "${ARGS[@]}"
+		(
+			cd "$DRUPAL_TI_DIST_DIR"
+			apt-get -c "$DRUPAL_TI_DIST_DIR/etc/apt/apt.conf" "${ARGS[@]}"
+			dpkg -x *.deb
+		)
 	else
-		apt-get -c "$HOME/.dist/etc/apt/apt.conf" "$@"
+		apt-get -c "$DRUPAL_TI_DIST_DIR/etc/apt/apt.conf" "$@"
 	fi
 }
 
