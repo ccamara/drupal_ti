@@ -13,7 +13,7 @@ function drupal_ti_ensure_drush() {
 	fi
 
 	# Check if drush is already available.
-	DRUSH=$(which drush)
+	DRUSH=$(which drush || echo "")
 
 	if [ -z "$DRUSH" ]
 	then
