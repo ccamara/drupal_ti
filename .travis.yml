@@ -189,7 +189,6 @@ script:
   - mkdir -p behat/vendor
   - mkdir -p $HOME/drupal-ti-cache/root/behat
   - rsync -a behat/vendor $HOME/drupal-ti-cache/root/behat/
-
   # Delete composer generated files that screw up cache detection.
   - rm -f $HOME/drupal-ti-cache/root/behat/vendor/composer/*.php
   - rm -f $HOME/drupal-ti-cache/root/behat/vendor/autoload.php
