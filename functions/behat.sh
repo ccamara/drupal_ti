@@ -104,7 +104,8 @@ function drupal_ti_ensure_webdriver() {
 		cat <<EOF >$DRUPAL_TI_BIN_DIR/chromium-browser
 #!/bin/bash
 
-$DRUPAL_TI_DIST_DIR/usr/bin/google-chrome --no-sandbox "\$@"
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:"
+$DRUPAL_TI_DIST_DIR/opt/google/chrome/google-chrome --no-sandbox "\$@"
 EOF
 		chmod a+x $DRUPAL_TI_BIN_DIR/chromium-browser
 		which chromium-browser
