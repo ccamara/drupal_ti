@@ -95,10 +95,16 @@ function drupal_ti_ensure_webdriver() {
 		CHROMEDRIVER=$(which chromedriver || echo "")
 		echo "Using chromedriver from $CHROMEDRIVER."
 		DRUPAL_TI_BEHAT_SELENIUM_ARGS="-Dwebdriver.chrome.driver=$CHROMEDRIVER $DRUPAL_TI_BEHAT_SELENIUM_ARGS"
+		drupal_ti_ensure_apt_get
+		(
+			cd $DRUPAL_TI_DIST_DIR
+			wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+			dpkg -x google-chrome-stable_current_amd64.deb .
+		)
 		cat <<EOF >$DRUPAL_TI_BIN_DIR/chromium-browser
 #!/bin/bash
 
-/usr/bin/chromium-browser --no-sandbox "\$@"
+$DRUPAL_TI_DIST_DIR/usr/bin/google-chrome --no-sandbox "\$@"
 EOF
 		chmod a+x $DRUPAL_TI_BIN_DIR/chromium-browser
 		which chromium-browser
