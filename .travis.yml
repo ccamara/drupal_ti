@@ -136,6 +136,9 @@ mysql:
   encoding: utf8
 
 before_install:
+  - which php
+  - exit 1 
+
   # Restore home directory from cache.
   - mkdir -p $HOME/drupal-ti-cache/home
   - rsync -a $HOME/drupal-ti-cache/home/ $HOME/
