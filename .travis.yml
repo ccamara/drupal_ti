@@ -184,6 +184,7 @@ script:
   # Delete composer generated files that screw up cache detection.
   #- rm -f $HOME/drupal-ti-cache/root/vendor/composer/*.php
   #- rm -f $HOME/drupal-ti-cache/root/vendor/autoload.php
+
   # Detect differences and touch a file in that case.
   - rsync -aincO $HOME/drupal-ti-cache/ $HOME/drupal-ti-cache.old/ | egrep -v '^\.' | tee /tmp/drupal-ti-cache.txt
   - RC=1
