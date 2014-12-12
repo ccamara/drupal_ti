@@ -104,7 +104,7 @@ function drupal_ti_ensure_apt_get() {
 Dir::Cache "$DRUPAL_TI_DIST_DIR/var/cache/apt";
 Dir::State "$DRUPAL_TI_DIST_DIR/var/lib/apt";
 EOF
-	touch "$TRAVIS_BUILD_DIR/../drupal_ti-drush-server-running"
+	touch "$TRAVIS_BUILD_DIR/../drupal_ti-apt-get-installed"
 }
 
 # @todo Move
