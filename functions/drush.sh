@@ -22,6 +22,7 @@ function drupal_ti_ensure_drush() {
 		composer global require --no-interaction "$DRUPAL_TI_DRUSH_VERSION"
 	else
 		echo "Drush $DRUPAL_TI_DRUSH_VERSION is already installed."
+		composer global install --no-interaction "$DRUPAL_TI_DRUSH_VERSION"
 	fi
 
 	touch "$TRAVIS_BUILD_DIR/../drupal_ti-drush-installed"
