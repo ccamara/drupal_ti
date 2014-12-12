@@ -17,4 +17,3 @@ drupal_ti_ensure_drush
 # Install firefox
 drupal_ti_apt_get update >/dev/null
 drupal_ti_apt_get install -y firefox
-find "$DRUPAL_TI_DIST_DIR"
