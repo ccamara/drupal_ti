@@ -88,12 +88,13 @@ function drupal_ti_ensure_webdriver() {
 	then
 		drupal_ti_ensure_bin_dir
 		cd $DRUPAL_TI_BIN_DIR
-		wget http://chromedriver.googlecode.com/files/chromedriver_linux32_23.0.1240.0.zip
-		unzip chromedriver_linux32_23.0.1240.0.zip
-		rm -f chromedriver_linux32_23.0.1240.0.zip
+		wget http://chromedriver.storage.googleapis.com/2.13/chromedriver_linux64.zip
+		unzip chromedriver_linux64.zip
+		rm -f chromedriver_linux64.zip
 		chmod a+x chromedriver
 		CHROMEDRIVER=$(which chromedriver || echo "")
 		echo "Using chromedriver from $CHROMEDRIVER."
+		ldd chromedriver
 		./chromedriver --help
 		$CHROMEDRIVER --help
 		exit 1
