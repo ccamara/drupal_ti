@@ -199,7 +199,6 @@ script:
   - RC=1
   - egrep -q '^' /tmp/drupal-ti-cache.txt || RC=""
   - test -z "$RC" || touch $HOME/drupal-ti-cache/x-drupal-ti-cache
-  - echo 'Size of Cache is: '
   - du -sh $HOME/drupal-ti-cache
 
 after_script:
