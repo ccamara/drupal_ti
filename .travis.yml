@@ -115,11 +115,12 @@ env:
 
   matrix:
     # Ensure that runners work isolated.
-    - DRUPAL_TI_RUNNERS="phpunit" DRUPAL_TI_ENVIRONMENT="drupal-7"
-    - DRUPAL_TI_RUNNERS="simpletest" DRUPAL_TI_ENVIRONMENT="drupal-7"
-    - DRUPAL_TI_RUNNERS="behat" DRUPAL_TI_ENVIRONMENT="drupal-7"
+    - DRUPAL_TI_RUNNERS="test"
+#    - DRUPAL_TI_RUNNERS="phpunit" DRUPAL_TI_ENVIRONMENT="drupal-7"
+#    - DRUPAL_TI_RUNNERS="simpletest" DRUPAL_TI_ENVIRONMENT="drupal-7"
+#    - DRUPAL_TI_RUNNERS="behat" DRUPAL_TI_ENVIRONMENT="drupal-7"
     # And in combination.
-    - DRUPAL_TI_RUNNERS="test phpunit simpletest behat" DRUPAL_TI_ENVIRONMENT="drupal-7" DRUPAL_TI_STORE_CACHE="1"
+#    - DRUPAL_TI_RUNNERS="test phpunit simpletest behat" DRUPAL_TI_ENVIRONMENT="drupal-7" DRUPAL_TI_STORE_CACHE="1"
 #    - DRUPAL_TI_RUNNERS="test phpunit simpletest behat" DRUPAL_TI_ENVIRONMENT="drupal-8"
 
 mysql:
@@ -195,6 +196,8 @@ script:
   # Delete composer generated files that screw up cache detection.
   - rm -f $HOME/drupal-ti-cache/root/behat/vendor/composer/*.php
   - rm -f $HOME/drupal-ti-cache/root/behat/vendor/autoload.php
+  - rm -rf $HOME/drupal-ti-cache/root
+  - rm -rf $HOME/drupal-ti-cache/home
 
   # Detect differences and touch a file in that case.
   - rsync --delete -aincO $HOME/drupal-ti-cache/ $HOME/drupal-ti-cache.old/ | egrep -v '^\.' | tee /tmp/drupal-ti-cache.txt
