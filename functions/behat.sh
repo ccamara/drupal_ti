@@ -74,7 +74,7 @@ function drupal_ti_ensure_bin_dir() {
 #
 # Ensures that chrome is installed.
 #
-function drupal_ti_ensure_chrome_driver() {
+function drupal_ti_ensure_chrome() {
 	# This function is re-entrant.
 	if [ -r "$TRAVIS_BUILD_DIR/../drupal_ti-chrome-installed" ]
 	then
