@@ -137,7 +137,7 @@ mysql:
 
 before_install:
   - which php
-  - ls -la /home/travis/.phpenv/shims/php
+  - cat /home/travis/.phpenv/shims/php
   - exit 1 
 
   # Restore home directory from cache.
