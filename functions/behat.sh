@@ -66,7 +66,7 @@ function drupal_ti_ensure_phantomjs() {
 #
 function drupal_ti_ensure_bin_dir() {
         # Create bin dir
-        export DRUPAL_TI_BIN_DIR="$TRAVIS_BUILD_DIR/../drupal_travis/bin"
+        export DRUPAL_TI_BIN_DIR=$(cd "$TRAVIS_BUILD_DIR/../drupal_travis/bin"; pwd)
         mkdir -p "$DRUPAL_TI_BIN_DIR"
         export PATH="$DRUPAL_TI_BIN_DIR:$PATH"
 }
@@ -91,7 +91,7 @@ function drupal_ti_ensure_webdriver() {
 		wget http://chromedriver.googlecode.com/files/chromedriver_linux32_23.0.1240.0.zip
 		unzip chromedriver_linux32_23.0.1240.0.zip
 		rm -f chromedriver_linux32_23.0.1240.0.zip
-		ls -la
+		chmod a+x chromedriver
 		CHROMEDRIVER=$(which chromedriver || echo "")
 		echo "Using chromedriver from $CHROMEDRIVER."
 		DRUPAL_TI_BEHAT_SELENIUM_ARGS="-Dwebdriver.chrome.driver=$CHROMEDRIVER $DRUPAL_TI_BEHAT_SELENIUM_ARGS"
