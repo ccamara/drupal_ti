@@ -194,7 +194,7 @@ script:
   - rm -f $HOME/drupal-ti-cache/root/behat/vendor/autoload.php
 
   # Detect differences and touch a file in that case.
-  - rsync -aincO $HOME/drupal-ti-cache/ $HOME/drupal-ti-cache.old/ | egrep -v '^\.' | tee /tmp/drupal-ti-cache.txt
+  - rsync --delete -aincO $HOME/drupal-ti-cache/ $HOME/drupal-ti-cache.old/ | egrep -v '^\.' | tee /tmp/drupal-ti-cache.txt
   - RC=1
   - egrep -q '^' /tmp/drupal-ti-cache.txt || RC=""
   - test -z "$RC" || touch $HOME/drupal-ti-cache/x-drupal-ti-cache
