@@ -125,9 +125,6 @@ mysql:
   encoding: utf8
 
 before_install:
-  - ls -la $HOME/.casher
-  - cat $HOME/.casher/bin/casher
-  - exit 1
   # Restore home directory from cache.
   - mkdir -p $HOME/drupal-ti-cache/home
   - rsync -a $HOME/drupal-ti-cache/home/ $HOME/
