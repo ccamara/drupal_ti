@@ -162,15 +162,14 @@ script:
 
   # Ignore old backups.
   - rm -f $HOME/drupal-ti-cache/home/.composer/*.phar
-  #- rm -f $HOME/drupal-ti-cache/home/.composer/vendor/composer/*.php
-  #- rm -f $HOME/drupal-ti-cache/home/.composer/vendor/autoload.php
+  - rm -f $HOME/drupal-ti-cache/home/.composer/vendor/composer/*.php
+  - rm -f $HOME/drupal-ti-cache/home/.composer/vendor/autoload.php
 
   - mkdir -p $HOME/.drush
   - rsync -a $HOME/.drush $HOME/drupal-ti-cache/home/
-
   # Ignore always changing cache files.
-  #- rm -f $HOME/drupal-ti-cache/home/.drush/cache/default/6.5.0-*.cache
-  #- rm -f $HOME/drupal-ti-cache/home/.drush/cache/default/7.0-dev-*.cache
+  - rm -f $HOME/drupal-ti-cache/home/.drush/cache/default/6.5.0-*.cache
+  - rm -f $HOME/drupal-ti-cache/home/.drush/cache/default/7.0-dev-*.cache
 
   # Backup .dist files (from apt-get), too.
   - mkdir -p $HOME/.dist
@@ -183,9 +182,8 @@ script:
   - rsync -a vendor $HOME/drupal-ti-cache/root/
 
   # Delete composer generated files that screw up cache detection.
-  #- rm -f $HOME/drupal-ti-cache/root/vendor/composer/*.php
-  #- rm -f $HOME/drupal-ti-cache/root/vendor/autoload.php
-
+  - rm -f $HOME/drupal-ti-cache/root/vendor/composer/*.php
+  - rm -f $HOME/drupal-ti-cache/root/vendor/autoload.php
   # Detect differences and touch a file in that case.
   - rsync -aincO $HOME/drupal-ti-cache/ $HOME/drupal-ti-cache.old/ | egrep -v '^\.' | tee /tmp/drupal-ti-cache.txt
   - RC=1
