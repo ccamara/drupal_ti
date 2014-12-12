@@ -134,7 +134,7 @@ mysql:
 
 before_install:
   - which chromium-browser || echo ""
-  - which google-chrom || echo ""
+  - which google-chrome || echo ""
   - exit 1
 
   # Restore home directory from cache.
