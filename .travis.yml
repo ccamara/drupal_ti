@@ -22,8 +22,8 @@ sudo: false
 
 cache:
   apt: true
-  directories:
-    - $HOME/drupal-ti-cache
+#  directories:
+#    - $HOME/drupal-ti-cache
 
 matrix:
   fast_finish: true
