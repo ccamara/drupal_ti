@@ -12,7 +12,7 @@ then
 	if [ -x "./vendor/bin/coveralls" ]
 	then
 		echo "Coveralls is already installed."
-		composer install --no-interaction --dev "$DRUPAL_TI_COVERAGE"
+		composer install --no-interaction
 	else
 		composer require --no-interaction --dev "$DRUPAL_TI_COVERAGE"
 		# Update the lock file, too.
