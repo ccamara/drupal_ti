@@ -15,5 +15,6 @@ drupal_ti_ensure_php_for_drush_webserver
 drupal_ti_ensure_drush
 
 # Install firefox
-drupal_ti_apt_get update >/dev/null
-drupal_ti_apt_get install -y firefox
+
+#drupal_ti_apt_get update >/dev/null
+#drupal_ti_apt_get install -y firefox
