@@ -84,7 +84,7 @@ function drupal_ti_ensure_webdriver() {
 	export DRUPAL_TI_BEHAT_PHANTOMJS_ARGS="--webdriver=127.0.0.1:4444"
 	export DRUPAL_TI_BEHAT_SELENIUM_ARGS=""
 	
-	if [ "$DRUPAL_TI_BEHAT_BROWSER" = "chrome"]
+	if [ "$DRUPAL_TI_BEHAT_BROWSER" = "chrome" ]
 	then
 		drupal_ti_ensure_bin_dir
 		cd $DRUPAL_TI_BIN_DIR
