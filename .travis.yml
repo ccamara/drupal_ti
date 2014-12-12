@@ -156,6 +156,7 @@ script:
   - drupal-ti script
   # Save caches @todo make simpler.
   - mv $HOME/drupal-ti-cache $HOME/drupal-ti-cache.old
+  - rm -f $HOME/drupal-ti-cache.old/x-drupal-ti-cache
 
   - mkdir -p $HOME/drupal-ti-cache/home
   - rsync -a $HOME/.composer $HOME/drupal-ti-cache/home/
