@@ -82,6 +82,7 @@ function drupal_ti_ensure_webdriver() {
         fi
 
 	export DRUPAL_TI_BEHAT_PHANTOMJS_ARGS="--webdriver=127.0.0.1:4444"
+	export DRUPAL_TI_BEHAT_SELENIUM_ARGS=""
 	
 	if [ "$DRUPAL_TI_BEHAT_BROWSER" = "chrome"]
 	then
@@ -90,8 +91,10 @@ function drupal_ti_ensure_webdriver() {
 		wget http://chromedriver.googlecode.com/files/chromedriver_linux32_23.0.1240.0.zip
 		unzip chromedriver_linux32_23.0.1240.0.zip
 		rm -f chromedriver_linux32_23.0.1240.0.zip
-		CHROMEDRIVER="$DRUPAL_TI_BIN_DIR/chromedriver"
-		export DRUPAL_TI_BEHAT_SELENIUM_ARGS="-Dwebdriver.chrome.driver=$CHROMEDRIVER"
+		ls -la
+		CHROMEDRIVER=$(which chromedriver || echo "")
+		echo "Using chromedriver from $CHROMEDRIVER."
+		DRUPAL_TI_BEHAT_SELENIUM_ARGS="-Dwebdriver.chrome.driver=$CHROMEDRIVER $DRUPAL_TI_BEHAT_SELENIUM_ARGS"
 	fi
 
 	case "$DRUPAL_TI_BEHAT_DRIVER" in
