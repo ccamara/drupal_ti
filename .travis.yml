@@ -200,6 +200,7 @@ script:
   - egrep -q '^' /tmp/drupal-ti-cache.txt || RC=""
   - test -z "$RC" || touch $HOME/drupal-ti-cache/x-drupal-ti-cache
   - du -sh $HOME/drupal-ti-cache
+  - find $HOME/drupal-ti-cache
 
 after_script:
   - drupal-ti after_script
