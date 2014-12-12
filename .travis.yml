@@ -133,12 +133,6 @@ mysql:
   encoding: utf8
 
 before_install:
-  - export DISPLAY=:99.0
-  - /usr/bin/Xvfb $DISPLAY -ac -screen 0 "1280x1024x16" &
-  - chromium-browser &
-  - sleep 20
-  - exit 1
-
   # Restore home directory from cache.
   - mkdir -p $HOME/drupal-ti-cache/home
   - rsync -a $HOME/drupal-ti-cache/home/ $HOME/

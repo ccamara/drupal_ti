@@ -95,6 +95,13 @@ function drupal_ti_ensure_webdriver() {
 		CHROMEDRIVER=$(which chromedriver || echo "")
 		echo "Using chromedriver from $CHROMEDRIVER."
 		DRUPAL_TI_BEHAT_SELENIUM_ARGS="-Dwebdriver.chrome.driver=$CHROMEDRIVER $DRUPAL_TI_BEHAT_SELENIUM_ARGS"
+		cat <<EOF >$DRUPAL_TI_BIN_DIR/chromium-browser
+#!/bin/bash
+
+/usr/bin/chromium-browser --no-sandbox "\$@"
+EOF
+		chmod a+x $DRUPAL_TI_BIN_DIR/chromium-browser
+		which chromium-browser
 	fi
 
 	case "$DRUPAL_TI_BEHAT_DRIVER" in
