@@ -138,6 +138,8 @@ mysql:
 before_install:
   - which php
   - cat /home/travis/.phpenv/shims/php
+  - export RBENV_DEBUG=1
+  - php -i
   - exit 1 
 
   # Restore home directory from cache.
