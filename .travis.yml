@@ -200,8 +200,9 @@ script:
   - rm -rf $HOME/drupal-ti-cache/home
 
   # Detect differences and touch a file in that case.
-  - rsync --delete -aincO $HOME/drupal-ti-cache/ $HOME/drupal-ti-cache.old/ | egrep -v '^\.' | tee /tmp/drupal-ti-cache.txt
-  - RC="$DRUPAL_TI_STORE_CACHE"
+  - touch /tmp/drupal-ti-cache.txt
+  - test -z "$DRUPAL_TI_STORE_CACHE" || rsync --delete -aincO $HOME/drupal-ti-cache/ $HOME/drupal-ti-cache.old/ | egrep -v '^\.' | tee /tmp/drupal-ti-cache.txt
+  - RC="1"
   - egrep -q '^' /tmp/drupal-ti-cache.txt || RC=""
   - test -z "$RC" || touch $HOME/drupal-ti-cache/x-drupal-ti-cache
   - du -sh $HOME/drupal-ti-cache
