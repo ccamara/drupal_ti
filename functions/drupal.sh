@@ -86,6 +86,8 @@ function drupal_ti_run_server() {
 	# Wait until drush server has been started.
 	drupal_ti_wait_for_service_port "$DRUPAL_TI_WEBSERVER_PORT"
 	touch "$TRAVIS_BUILD_DIR/../drupal_ti-drush-server-running"
+	# debug
+	curl "$DRUPAL_TI_WEBSERVER_URL:$DRUPAL_TI_WEBSERVER_PORT/"
 }
 
 # @todo Move
