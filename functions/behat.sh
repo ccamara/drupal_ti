@@ -62,6 +62,16 @@ function drupal_ti_ensure_phantomjs() {
 }
 
 #
+# Ensures local bin dir exists and variables are set.
+#
+function drupal_ti_ensure_bin_dir() {
+        # Create bin dir
+        export DRUPAL_TI_BIN_DIR="$TRAVIS_BUILD_DIR/../drupal_travis/bin"
+        mkdir -p "$DRUPAL_TI_BIN_DIR"
+        export PATH="$DRUPAL_TI_BIN_DIR:$PATH"
+}
+
+#
 # Ensures that webdriver is running.
 #
 function drupal_ti_ensure_webdriver() {
@@ -72,8 +82,17 @@ function drupal_ti_ensure_webdriver() {
         fi
 
 	export DRUPAL_TI_BEHAT_PHANTOMJS_ARGS="--webdriver=127.0.0.1:4444"
-	CHROMEDRIVER=$(which chromedriver || echo "")
-	export DRUPAL_TI_BEHAT_SELENIUM_ARGS="-Dwebdriver.chrome.driver=$CHROMEDRIVER"
+	
+	if [ "$DRUPAL_TI_BEHAT_BROWSER" = "chrome"]
+	then
+		drupal_ti_ensure_bin_dir
+		cd $DRUPAL_TI_BIN_DIR
+		wget http://chromedriver.googlecode.com/files/chromedriver_linux32_23.0.1240.0.zip
+		unzip chromedriver_linux32_23.0.1240.0.zip
+		rm -f chromedriver_linux32_23.0.1240.0.zip
+		CHROMEDRIVER="$DRUPAL_TI_BIN_DIR/chromedriver"
+		export DRUPAL_TI_BEHAT_SELENIUM_ARGS="-Dwebdriver.chrome.driver=$CHROMEDRIVER"
+	fi
 
 	case "$DRUPAL_TI_BEHAT_DRIVER" in
 		"phantomjs")
