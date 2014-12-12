@@ -94,6 +94,7 @@ function drupal_ti_ensure_webdriver() {
 		chmod a+x chromedriver
 		CHROMEDRIVER=$(which chromedriver || echo "")
 		echo "Using chromedriver from $CHROMEDRIVER."
+		./chromedriver --help
 		$CHROMEDRIVER --help
 		exit 1
 		DRUPAL_TI_BEHAT_SELENIUM_ARGS="-Dwebdriver.chrome.driver=$CHROMEDRIVER $DRUPAL_TI_BEHAT_SELENIUM_ARGS"
