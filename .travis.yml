@@ -181,10 +181,18 @@ script:
 
   - mkdir -p vendor
   - rsync -a vendor $HOME/drupal-ti-cache/root/
-
   # Delete composer generated files that screw up cache detection.
   - rm -f $HOME/drupal-ti-cache/root/vendor/composer/*.php
   - rm -f $HOME/drupal-ti-cache/root/vendor/autoload.php
+
+  - mkdir -p behat/vendor
+  - mkdir -p $HOME/drupal-ti-cache/root/behat
+  - rsync -a behat/vendor $HOME/drupal-ti-cache/root/behat/
+
+  # Delete composer generated files that screw up cache detection.
+  - rm -f $HOME/drupal-ti-cache/root/behat/vendor/composer/*.php
+  - rm -f $HOME/drupal-ti-cache/root/behat/vendor/autoload.php
+
   # Detect differences and touch a file in that case.
   - rsync -aincO $HOME/drupal-ti-cache/ $HOME/drupal-ti-cache.old/ | egrep -v '^\.' | tee /tmp/drupal-ti-cache.txt
   - RC=1
