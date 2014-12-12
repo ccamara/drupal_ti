@@ -119,7 +119,11 @@ function drupal_ti_apt_get() {
 		(
 			cd "$DRUPAL_TI_DIST_DIR"
 			apt-get -c "$DRUPAL_TI_DIST_DIR/etc/apt/apt.conf" "${ARGS[@]}" || true
-			dpkg -x *.deb .
+			for i in *.deb
+			do
+				dpkg -x "$i" .
+			done
+			rm -f *.deb
 		)
 	else
 		apt-get -c "$DRUPAL_TI_DIST_DIR/etc/apt/apt.conf" "$@" || true
@@ -142,6 +146,7 @@ function drupal_ti_ensure_php_for_drush_webserver() {
 	then
 		drupal_ti_apt_get update >/dev/null 2>&1
 		drupal_ti_apt_get install php5-cgi
+		drupal_ti_apt_get install php5-mysql
 	fi
 	touch "$TRAVIS_BUILD_DIR/../drupal_ti-php-for-webserver-installed"
 }
