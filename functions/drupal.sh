@@ -196,6 +196,7 @@ function drupal_ti_ensure_php_for_drush_webserver() {
 	else
 		drupal_ti_ensure_php_fpm
 	fi
+	echo "HVVM setup ..."
 
 	drupal_ti_apt_get update >/dev/null 2>&1
 	drupal_ti_apt_get install libfcgi0ldbl
@@ -207,6 +208,8 @@ export DOCUMENT_ROOT="$DRUPAL_TI_DRUPAL_DIR"
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$DRUPAL_TI_DIST_DIR/usr/lib"
 $DRUPAL_TI_DIST_DIR/usr/bin/cgi-fcgi -bind -connect /tmp/php-fastcgi.sock
 EOF
+	cat $DRUPAL_TI_DIST_DIR/usr/bin/php5-cgi
+
         chmod a+x $DRUPAL_TI_DIST_DIR/usr/bin/php5-cgi
 	touch "$TRAVIS_BUILD_DIR/../drupal_ti-php-for-webserver-installed"
 }
