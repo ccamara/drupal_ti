@@ -137,7 +137,7 @@ mysql:
   encoding: utf8
 
 before_install:
-  - which php
+  - which php-fpm
   - cat /home/travis/.phpenv/shims/php
   - ls -laR /home/travis/.phpenv/versions/5.3/
   - #export RBENV_DEBUG=1
