@@ -137,13 +137,6 @@ mysql:
   encoding: utf8
 
 before_install:
-  - which php-fpm
-  - cat /home/travis/.phpenv/shims/php
-  - ls -laR /home/travis/.phpenv/versions/5.3/
-  - #export RBENV_DEBUG=1
-  - #php -i
-  - exit 1 
-
   # Restore home directory from cache.
   - mkdir -p $HOME/drupal-ti-cache/home
   - rsync -a $HOME/drupal-ti-cache/home/ $HOME/
