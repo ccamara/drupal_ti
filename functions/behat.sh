@@ -88,6 +88,7 @@ function drupal_ti_ensure_chrome() {
 		wget -O google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 		dpkg -x google-chrome-stable_current_amd64.deb .
 	)
+	drupal_ti_ensure_bin_dir
 	cat <<EOF >$DRUPAL_TI_BIN_DIR/chromium-browser
 #!/bin/bash
 

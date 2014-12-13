@@ -142,12 +142,47 @@ function drupal_ti_ensure_php_for_drush_webserver() {
 
 	# install php packages required for running a web server from drush on php 5.3
 	PHP_VERSION=$(phpenv version-name)
-	if [ "$PHP_VERSION" = "5.3" ]
+	if [ "$PHP_VERSION" != "5.3" ]
 	then
-		drupal_ti_apt_get update >/dev/null 2>&1
-		drupal_ti_apt_get install php5-cgi
-		drupal_ti_apt_get install php5-mysql
+		return
 	fi
+
+	# PHP-FPM
+	export DRUPAL_TI_PHP_FPM_CONF="$TRAVIS_BUILD_DIR/../php-fpm.conf"
+cat <<EOF >"$DRUPAL_TI_PHP_FPM_CONF"
+error_log = /tmp/fpm-php.log
+
+[www]
+user = travis
+group = travis
+
+listen = /tmp/php-fpm-apache2.sock
+listen.owner = travis
+listen.group = travis
+listen.mode = 0666
+listen.allowed_clients = 127.0.0.1
+
+pm = dynamic
+pm.max_children = 5
+pm.start_servers = 2
+pm.min_spare_servers = 1
+pm.max_spare_servers = 3
+
+pm.status_path = /php-fpm-status
+ping.path = /php-fpm-ping
+EOF
+	{ php-fpm -F -y "$DRUPAL_TI_PHP_FPM_CONF" | drupal_ti_log_output "php-fpm"; } &
+
+	drupal_ti_apt_get update >/dev/null 2>&1
+	drupal_ti_apt_get install libfcgi0ldbl
+
+        cat <<EOF >$DRUPAL_TI_DIST_DIR/usr/bin/php5-cgi
+#!/bin/bash
+
+export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$DRUPAL_TI_DIST_DIR/usr/lib"
+$DRUPAL_TI_DIST_DIR/usr/bin/cgi-fcgi -bind -connect /tmp/php-fpm-apache2.sock
+EOF
+        chmod a+x $DRUPAL_TI_DIST_DIR/usr/bin/php5-cgi
 	touch "$TRAVIS_BUILD_DIR/../drupal_ti-php-for-webserver-installed"
 }
 
