@@ -131,22 +131,16 @@ function drupal_ti_apt_get() {
 }
 
 #
-# Ensures a drush webserver can be started for PHP 5.3.
 #
-function drupal_ti_ensure_php_for_drush_webserver() {
-	# This function is re-entrant.
-	if [ -r "$TRAVIS_BUILD_DIR/../drupal_ti-php-for-webserver-installed" ]
-	then
-		return
-	fi
+#
+function drupal_ti_ensure_hhvm_fastcgi() {
+	{ hhvm --mode server -vServer.Type=fastcgi -vServer.FileSocket=/tmp/php-fastcgi.sock | drupal_ti_log_output "hhvm-fastcgi"; } &
+}
 
-	# install php packages required for running a web server from drush on php 5.3
-	PHP_VERSION=$(phpenv version-name)
-	if [ "$PHP_VERSION" != "5.3" -a "$PHP_VERSION" != "hhvm" ]
-	then
-		return
-	fi
-
+#
+# Ensure that PHP FPM runs.
+#
+function drupal_ti_ensure_php_fpm() {
 	# @todo Fix differently.
 	export DRUSH_BASE_PATH="$HOME/.composer/vendor/drush/drush"
 
@@ -159,7 +153,7 @@ error_log = /tmp/fpm-php.log
 user = travis
 group = travis
 
-listen = /tmp/php-fpm-apache2.sock
+listen = /tmp/php-fastcgi.sock
 listen.owner = travis
 listen.group = travis
 listen.mode = 0666
@@ -177,6 +171,31 @@ ping.path = /php-fpm-ping
 php_value[auto_prepend_file] = $DRUSH_BASE_PATH/commands/runserver/runserver-prepend.php
 EOF
 	{ php-fpm -F -y "$DRUPAL_TI_PHP_FPM_CONF" | drupal_ti_log_output "php-fpm"; } &
+}
+
+
+#
+# Ensures a drush webserver can be started for PHP 5.3.
+#
+function drupal_ti_ensure_php_for_drush_webserver() {
+	# This function is re-entrant.
+	if [ -r "$TRAVIS_BUILD_DIR/../drupal_ti-php-for-webserver-installed" ]
+	then
+		return
+	fi
+
+	# install php packages required for running a web server from drush on php 5.3
+	PHP_VERSION=$(phpenv version-name)
+	if [ "$PHP_VERSION" != "5.3" -a "$PHP_VERSION" != "hhvm" ]
+	then
+		return
+	fi
+	if [ "$PHP_VERSION" = "hhvm" ]
+	then
+		drupal_ti_ensure_hhvm_fastcgi
+	else
+		drupal_ti_ensure_php_fpm
+	fi
 
 	drupal_ti_apt_get update >/dev/null 2>&1
 	drupal_ti_apt_get install libfcgi0ldbl
@@ -185,7 +204,7 @@ EOF
 #!/bin/bash
 
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$DRUPAL_TI_DIST_DIR/usr/lib"
-$DRUPAL_TI_DIST_DIR/usr/bin/cgi-fcgi -bind -connect /tmp/php-fpm-apache2.sock
+$DRUPAL_TI_DIST_DIR/usr/bin/cgi-fcgi -bind -connect /tmp/php-fastcgi.sock
 EOF
         chmod a+x $DRUPAL_TI_DIST_DIR/usr/bin/php5-cgi
 	touch "$TRAVIS_BUILD_DIR/../drupal_ti-php-for-webserver-installed"
