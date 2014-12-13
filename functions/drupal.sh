@@ -134,7 +134,7 @@ function drupal_ti_apt_get() {
 #
 #
 function drupal_ti_ensure_hhvm_fastcgi() {
-	{ php --mode server -vServer.Type=fastcgi -vServer.FileSocket=/tmp/php-fastcgi.sock | drupal_ti_log_output "hhvm-fastcgi"; } &
+	{ hhvm --mode server -vServer.Type=fastcgi -vServer.FileSocket=/tmp/php-fastcgi.sock | drupal_ti_log_output "hhvm-fastcgi"; } &
 }
 
 #
