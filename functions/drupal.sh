@@ -74,7 +74,7 @@ function drupal_ti_run_server() {
 
 	# Set PHP CGI explicitly to php5-cgi full path.
 	PHP_VERSION=$(phpenv version-name)
-	if [ "$PHP_VERSION" = "5.3" ]
+	if [ "$PHP_VERSION" = "5.3" -o "$PHP_VERSION" = "hhvm" ]
 	then
 		PHP5_CGI=$(which php5-cgi)
 		OPTIONS=( "${OPTIONS[@]}" --php-cgi="$PHP5_CGI")
@@ -142,7 +142,7 @@ function drupal_ti_ensure_php_for_drush_webserver() {
 
 	# install php packages required for running a web server from drush on php 5.3
 	PHP_VERSION=$(phpenv version-name)
-	if [ "$PHP_VERSION" != "5.3" ]
+	if [ "$PHP_VERSION" != "5.3" -a "$PHP_VERSION" != "hhvm" ]
 	then
 		return
 	fi
