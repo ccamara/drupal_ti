@@ -147,6 +147,9 @@ function drupal_ti_ensure_php_for_drush_webserver() {
 		return
 	fi
 
+	# @todo Fix differently.
+	export DRUSH_BASE_PATH="$HOME/.composer/vendor/drush/drush"
+
 	# PHP-FPM
 	export DRUPAL_TI_PHP_FPM_CONF="$TRAVIS_BUILD_DIR/../php-fpm.conf"
 cat <<EOF >"$DRUPAL_TI_PHP_FPM_CONF"
@@ -170,6 +173,8 @@ pm.max_spare_servers = 3
 
 pm.status_path = /php-fpm-status
 ping.path = /php-fpm-ping
+
+php_value[auto_prepend_file] = $DRUSH_BASE_PATH/commands/runserver/runserver-prepend.php
 EOF
 	{ php-fpm -F -y "$DRUPAL_TI_PHP_FPM_CONF" | drupal_ti_log_output "php-fpm"; } &
 
