@@ -80,8 +80,14 @@ function drupal_ti_run_server() {
 		OPTIONS=( "${OPTIONS[@]}" --php-cgi="$PHP5_CGI")
 	fi
 
-	# start a web server on port 8080, run in the background; wait for initialization
-	{ drush runserver "${OPTIONS[@]}" "$DRUPAL_TI_WEBSERVER_URL:$DRUPAL_TI_WEBSERVER_PORT" 2>&1 | drupal_ti_log_output "webserver" ; } &
+	(
+		mkdir -p $HOME/drush
+		cd $HOME/drush
+		composer require --no-interaction --prefer-source "drush/drush:6.5"
+		
+		# start a web server on port 8080, run in the background; wait for initialization
+		{ $HOME/drush/vendor/bin/drush runserver "${OPTIONS[@]}" "$DRUPAL_TI_WEBSERVER_URL:$DRUPAL_TI_WEBSERVER_PORT" 2>&1 | drupal_ti_log_output "webserver" ; } &
+	)
 
 	# Wait until drush server has been started.
 	drupal_ti_wait_for_service_port "$DRUPAL_TI_WEBSERVER_PORT"
@@ -148,7 +154,7 @@ function drupal_ti_ensure_hhvm_fastcgi() {
 #
 function drupal_ti_ensure_php_fpm() {
 	# @todo Fix differently.
-	export DRUSH_BASE_PATH="$HOME/.composer/vendor/drush/drush"
+	export DRUSH_BASE_PATH="$HOME/drush/vendor/drush/drush"
 
 	# PHP-FPM
 	export DRUPAL_TI_PHP_FPM_CONF="$TRAVIS_BUILD_DIR/../php-fpm.conf"
