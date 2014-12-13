@@ -87,7 +87,12 @@ function drupal_ti_run_server() {
 	drupal_ti_wait_for_service_port "$DRUPAL_TI_WEBSERVER_PORT"
 	touch "$TRAVIS_BUILD_DIR/../drupal_ti-drush-server-running"
 	# debug
-	curl "$DRUPAL_TI_WEBSERVER_URL:$DRUPAL_TI_WEBSERVER_PORT/"
+	curl -I "$DRUPAL_TI_WEBSERVER_URL:$DRUPAL_TI_WEBSERVER_PORT/"
+
+        echo "Waiting for HHVM to start ..."
+        sleep 10
+	SCRIPT_NAME=/index.php SCRIPT_FILENAME="$DRUPAL_TI_DRUPAL_DIR/index.php" DOCUMENT_ROOT="$DRUPAL_TI_DRUPAL_DIR" REQUEST_METHOD=GET cgi-fcgi -bind -connect /tmp/php-fastcgi.sock
+	exit 1
 }
 
 # @todo Move
@@ -134,7 +139,8 @@ function drupal_ti_apt_get() {
 #
 #
 function drupal_ti_ensure_hhvm_fastcgi() {
-	{ hhvm --mode server -vServer.Type=fastcgi -vServer.FileSocket=/tmp/php-fastcgi.sock | drupal_ti_log_output "hhvm-fastcgi"; } &
+	hhvm --mode daemon -vServer.Type=fastcgi -vServer.FileSocket=/tmp/php-fastcgi.sock -vLog.File=/tmp/hhvm.log
+	{ tail -f /tmp/hhvm.log | drupal_ti_log_output "hhvm-fastcgi"; } &
 }
 
 #
@@ -208,8 +214,6 @@ export DOCUMENT_ROOT="$DRUPAL_TI_DRUPAL_DIR"
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$DRUPAL_TI_DIST_DIR/usr/lib"
 $DRUPAL_TI_DIST_DIR/usr/bin/cgi-fcgi -bind -connect /tmp/php-fastcgi.sock
 EOF
-	cat $DRUPAL_TI_DIST_DIR/usr/bin/php5-cgi
-
         chmod a+x $DRUPAL_TI_DIST_DIR/usr/bin/php5-cgi
 	touch "$TRAVIS_BUILD_DIR/../drupal_ti-php-for-webserver-installed"
 }
