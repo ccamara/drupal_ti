@@ -203,6 +203,7 @@ function drupal_ti_ensure_php_for_drush_webserver() {
         cat <<EOF >$DRUPAL_TI_DIST_DIR/usr/bin/php5-cgi
 #!/bin/bash
 
+export DOCUMENT_ROOT="$DRUPAL_TI_DRUPAL_DIR"
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$DRUPAL_TI_DIST_DIR/usr/lib"
 $DRUPAL_TI_DIST_DIR/usr/bin/cgi-fcgi -bind -connect /tmp/php-fastcgi.sock
 EOF
