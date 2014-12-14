@@ -70,6 +70,11 @@ function drupal_ti_run_server() {
 		return
 	fi
 
+        echo "Waiting for HHVM to start ..."
+        sleep 10
+	SCRIPT_NAME=/index.php SCRIPT_FILENAME="$DRUPAL_TI_DRUPAL_DIR/index.php" REQUEST_METHOD=GET php5-cgi
+	exit 1
+
 	OPTIONS=()
 
 	# Set PHP CGI explicitly to php5-cgi full path.
@@ -94,11 +99,6 @@ function drupal_ti_run_server() {
 	touch "$TRAVIS_BUILD_DIR/../drupal_ti-drush-server-running"
 	# debug
 	curl -I "$DRUPAL_TI_WEBSERVER_URL:$DRUPAL_TI_WEBSERVER_PORT/"
-
-        echo "Waiting for HHVM to start ..."
-        sleep 10
-	SCRIPT_NAME=/index.php SCRIPT_FILENAME="$DRUPAL_TI_DRUPAL_DIR/index.php" DOCUMENT_ROOT="$DRUPAL_TI_DRUPAL_DIR" REQUEST_METHOD=GET cgi-fcgi -bind -connect /tmp/php-fastcgi.sock
-	exit 1
 }
 
 # @todo Move
